@@ -800,7 +800,8 @@ class DotenvEditor
     {
         $composerLock  = $this->app->basePath() . DIRECTORY_SEPARATOR . 'composer.lock';
         $arrayContent  = json_decode(file_get_contents($composerLock), true);
-        $dotenvPackage = array_values(array_filter($arrayContent['packages'], function ($packageInfo, $index) {
+        $packages = array_merge($arrayContent['packages'], $arrayContent['packages-dev']);
+        $dotenvPackage = array_values(array_filter($packages, function ($packageInfo, $index) {
             return 'vlucas/phpdotenv' === $packageInfo['name'];
         }, ARRAY_FILTER_USE_BOTH))[0];
 
